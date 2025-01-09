@@ -26,7 +26,7 @@ const Navbar: React.FC = () => {
 
     const handleConnect = async () => {
         const result = await handleConnectDapp();
-        if (result) {
+        if (result.connectorData && result.connector && result.wallet) {
             const { wallet, connector, connectorData } = result;
             setConnection(wallet)
             setAddress(connectorData.account || null)
@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
         (async () => {
             const result = await connectOnReload();
 
-            if (result) {
+            if (result.connectorData && result.connector && result.wallet) {
                 const { wallet, connector, connectorData } = result;
                 setConnection(wallet)
                 setAddress(connectorData.account || null)

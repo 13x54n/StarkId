@@ -1,5 +1,5 @@
 import { connect, disconnect } from "starknetkit"
-import { WebWalletConnector } from "starknetkit/webwallet"
+// import { WebWalletConnector } from "starknetkit/webwallet"
 import { InjectedConnector } from "starknetkit/injected"
 import { create } from 'zustand'
 
@@ -31,7 +31,7 @@ export const handleConnectDapp = async () => {
             new InjectedConnector({
                 options: { id: "braavos" },
             }),
-            new WebWalletConnector(),
+            // new WebWalletConnector(),
             new InjectedConnector({ options: { id: "argentX" } }),
         ],
     })
@@ -39,6 +39,7 @@ export const handleConnectDapp = async () => {
     if (wallet && connectorData) {
         return { wallet, connector, connectorData }
     }
+    return { wallet: null, connector: null, connectorData: null }
 }
 
 export const disconnectWallet = async () => {
@@ -49,7 +50,7 @@ export const disconnectWallet = async () => {
 export const connectOnReload = async () => {
     const { wallet, connector, connectorData } = await connect({
         connectors: [
-            new WebWalletConnector(),
+            // new WebWalletConnector(),
             new InjectedConnector({ options: { id: "argentX" } }),
             new InjectedConnector({
                 options: { id: "braavos" },
@@ -61,4 +62,5 @@ export const connectOnReload = async () => {
     if (wallet && connectorData) {
         return { wallet, connector, connectorData }
     }
+    return { wallet: null, connector: null, connectorData: null }
 }
