@@ -13,12 +13,16 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { connectOnReload, disconnectWallet, handleConnectDapp } from '@/hooks/auth/auth';
+import { useAuthenticationStore } from '@/hooks/auth/auth';
+import { useRouter } from 'next/navigation'
 
 
 const Navbar: React.FC = () => {
     const [connection, setConnection] = React.useState<any>(null)
     const [address, setAddress] = React.useState<string | null>(null)
     const imageUrl = 'https://images.unsplash.com/photo-1604076913837-52ab5629fba9?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    const storeUser = useAuthenticationStore(state => state?.storeUser)
+    const router = useRouter()
 
     const handleConnect = async () => {
         const result = await handleConnectDapp();
@@ -26,6 +30,8 @@ const Navbar: React.FC = () => {
             const { wallet, connector, connectorData } = result;
             setConnection(wallet)
             setAddress(connectorData.account || null)
+            storeUser({ wallet, connector, connectorData })
+            router.push('/dashboard')
         }
     }
 
@@ -41,6 +47,8 @@ const Navbar: React.FC = () => {
                 const { wallet, connector, connectorData } = result;
                 setConnection(wallet)
                 setAddress(connectorData.account || null)
+                storeUser({ wallet, connector, connectorData })
+                router.push('/dashboard')
             }
         })()
     }, [])

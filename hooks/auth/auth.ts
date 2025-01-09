@@ -1,6 +1,29 @@
 import { connect, disconnect } from "starknetkit"
 import { WebWalletConnector } from "starknetkit/webwallet"
 import { InjectedConnector } from "starknetkit/injected"
+import { create } from 'zustand'
+
+interface User {
+    // Define the properties of the user object here
+    // For example:
+    wallet?: object;
+    connector?: object;
+    connectorData?: object;
+}
+
+interface AuthenticationState {
+    user: User;
+    authenticated: boolean;
+    storeUser: (user: User) => void;
+    disconnectWallet: () => void;
+}
+
+export const useAuthenticationStore = create<AuthenticationState>((set) => ({
+    user: {},
+    authenticated: false,
+    storeUser: (user: User) => set({ user, authenticated: true }),
+    disconnectWallet: () => { set({ user: {}, authenticated: false }); disconnectWallet() },
+}))
 
 export const handleConnectDapp = async () => {
     const { wallet, connector, connectorData } = await connect({
