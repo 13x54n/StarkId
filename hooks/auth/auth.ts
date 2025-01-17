@@ -4,11 +4,9 @@ import { InjectedConnector } from "starknetkit/injected"
 import { create } from 'zustand'
 
 interface User {
-    // Define the properties of the user object here
-    // For example:
     wallet?: object;
     connector?: object;
-    connectorData?: object;
+    connectorData?: object
 }
 
 interface AuthenticationState {
